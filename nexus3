@@ -331,13 +331,13 @@ function Library:CreateWindow(config)
         Library.ConfigLoaded = true
     end
     
-    -- Notification System (FIXED)
+    -- Notification System
     function Window:Notify(options)
         options = options or {}
-        local Title = options.Title or "Notification"  -- Changed variable name
+        local Title = options.Title or "Notification"
         local Content = options.Content or ""
         local Duration = options.Duration or 3
-        local Type = options.Type or "Default" -- Default, Success, Warning, Error
+        local Type = options.Type or "Default"
         
         local Notif = Instance.new("Frame")
         Notif.Size = UDim2.new(1, 0, 0, 0)
@@ -359,7 +359,7 @@ function Library:CreateWindow(config)
         NotifTitle.Size = UDim2.new(1, -20, 0, 20)
         NotifTitle.Position = UDim2.new(0, 10, 0, 5)
         NotifTitle.BackgroundTransparency = 1
-        NotifTitle.Text = Title  -- Fixed: Now using the Title variable
+        NotifTitle.Text = Title
         NotifTitle.TextColor3 = Theme.TextPrimary
         NotifTitle.TextSize = 14
         NotifTitle.Font = Enum.Font.GothamBold
@@ -379,7 +379,6 @@ function Library:CreateWindow(config)
         NotifContent.TextWrapped = true
         NotifContent.Parent = Notif
         
-        -- Calculate height
         local textBounds = NotifContent.TextBounds.Y
         local targetHeight = math.max(textBounds + 35, 60)
         
@@ -398,7 +397,6 @@ function Library:CreateWindow(config)
         Tab.Name = name
         Tab.Elements = {}
         
-        -- Tab Button
         local TabBtn = Instance.new("TextButton")
         TabBtn.Name = name
         TabBtn.Size = UDim2.new(1, 0, 0, 35)
@@ -414,7 +412,6 @@ function Library:CreateWindow(config)
         TabBtnCorner.CornerRadius = UDim.new(0, 6)
         TabBtnCorner.Parent = TabBtn
         
-        -- Tab Content
         local TabContent = Instance.new("ScrollingFrame")
         TabContent.Name = name .. "Content"
         TabContent.Size = UDim2.new(1, -10, 1, -10)
@@ -435,7 +432,6 @@ function Library:CreateWindow(config)
             TabContent.CanvasSize = UDim2.new(0, 0, 0, ContentList.AbsoluteContentSize.Y + 10)
         end)
         
-        -- Tab Selection
         TabBtn.MouseButton1Click:Connect(function()
             for _, tab in pairs(ContentContainer:GetChildren()) do
                 if tab:IsA("ScrollingFrame") then
@@ -465,14 +461,11 @@ function Library:CreateWindow(config)
             end
         end)
         
-        -- Auto-select first tab
         if #Window.Tabs == 0 then
             TabBtn.MouseButton1Click()
         end
         
         table.insert(Window.Tabs, Tab)
-        
-        -- ELEMENT CREATION FUNCTIONS
         
         -- Section
         function Tab:CreateSection(name)
@@ -868,7 +861,6 @@ function Library:CreateWindow(config)
                     
                     pcall(Callback, option)
                     
-                    -- Close dropdown
                     IsOpen = false
                     Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, 35)})
                 end)
@@ -1168,8 +1160,6 @@ function Library:CreateWindow(config)
             DisplayStroke.Parent = ColorDisplay
             
             ColorDisplay.MouseButton1Click:Connect(function()
-                -- Simple color randomizer for demonstration
-                -- You can implement a full color picker UI here
                 local newColor = Color3.fromRGB(
                     math.random(0, 255),
                     math.random(0, 255),
@@ -1220,7 +1210,6 @@ function Library:CreateWindow(config)
         return Tab
     end
     
-    -- Auto-load config
     task.spawn(function()
         task.wait(1)
         Window:LoadConfig()
